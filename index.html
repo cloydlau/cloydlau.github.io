@@ -12,60 +12,13 @@
   </style>
 </head>
 <body>
-<div id="content">
-
+<div id="app">
+  <ul>
+    <li>
+      <a href="./blogs/merge-sort-with-sentinel.html">【大白话】归并排序 单循环/哨兵版本</a>
+    </li>
+  </ul>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script>
-document.getElementById('content').innerHTML = marked(`
-## 写在前面
-归并排序关注度一直比不上快排，毕竟空间复杂度在那儿摆着，只有在最差情况上比快排厉害一些，但人家快排可以优化这一点，把这个最差情况的概率做到极低。
-
-把Github上排名靠前的JS算法仓库都看了下，他们的归并排序基本上都是用的三次循环版。当然，说是三次循环，实际的每一轮合并，循环只走了两次，但是嘛，代码是确实写了三个循环出来的。有的人会用concat函数来实现后面两个循环，不过先不论concat的底层原理是不是循环，其他语言也不见得有concat呀。算法么，还是按照C语言的思维去写呗。
-
-当然有同学说了，这个循环次数根本不影响啊，是三个还是一个，时间复杂度完全一样。没错，虽然看起来好像少循环了两次，但是减少的这两个循环，既没有嵌套，也不是重复循环，只是把对子模块不同区间的循环合在一起了而已，所以在复杂度上是没有什么区别滴。
-
-那么有什么意义呢？嘿嘿，三次循环的代码太长了，看着糟心呐，精简一点不好么。
-
-## 思路
-看了很多文章，写得挺复杂，伪代码或代码片段居多，也没看到有JS版本滴。后来自己捣鼓捣鼓，其实和普通的归并排序区别不会很大，递归部分是一模一样的，就是merge()函数需要稍微修改一下
-\`\`\`
-let result = [], l = 0, r = 0, i = 0
-while (l < leftArr.length && r < rightArr.length) {
-  result[i++] = leftArr[l] > rightArr[r] ? rightArr[r++] : leftArr[l++]
-}
-while (l < leftArr.length) {
-  result[i++] = leftArr[l++]
-}
-while (r < rightArr.length) {
-  result[i++] = rightArr[r++]
-}
-\`\`\`
-原版的merge()函数，是将两个子数组进行遍历，把他们相同下标的元素拿来比较，将较小的元素放入new出来的新数组里面，被选中的子数组A，下标+1往后面走着，没被选中的子数组B，下标不动，并和子数组A后面的元素继续进行比较。
-
-所以呀，这就有个问题~ 这两个子数组肯定是某一个先循环完毕，而不是同时完毕，那么没有循环完的这个子数组，咱也不能抛弃喽。所以后面两个循环的意思就是判断到底是你们谁还没有循环完呐，没有循环到的元素们赶紧上车吧！
-
-这个时候新new出来的数组就拿到了两个子数组全部元素，变成了一个更大的子数组，参与到下一轮递归~
-
-**哨兵版核心代码：**
-\`\`\`
-let len = leftArr.length + rightArr.length
-leftArr.push(Number.MAX_VALUE)
-rightArr.push(Number.MAX_VALUE)
-let i = 0, l = 0, r = 0, result = []
-while (i < len) {
-  result[i++] = rightArr[r] > leftArr[l] ? leftArr[l++] : rightArr[r++]
-}
-\`\`\`
-对，所谓哨兵就是这个最大值啦，Java的话可以用Integer.MAX_VALUE什么的，加入这个东西有什么用呢？
-
-原版的第一个循环判断条件是，将两个子数组的下标限制在其长度之内，作用是防止越界，当然，JS数组越界并不会报错，但是会拿到一个非预期的undefined。
-
-前面说过，子数组的下标只会在被选入了结果数组中时，才会自增+1，而哨兵是永远不可能被选中的，所以子数组的下标一定会定格在最后一位，而不会发生越界。
-
-既然保证了不会越界，那么现在就可以放心地将循环长度从单个子数组提升为两个子数组之和，一次搞定。
-`)
-</script>
 </body>
 </html>
