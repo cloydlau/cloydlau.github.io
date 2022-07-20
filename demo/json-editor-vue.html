@@ -6,6 +6,36 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>json-editor-vue</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    #app {
+      width: 800px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    p {
+      border: 1px solid #d7d7d7;
+      padding: 3rem 1rem 1rem 1rem;
+      position: relative;
+    }
+
+    p:before {
+      content: 'Binding value:';
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-weight: bold;
+    }
+
+  </style>
 </head>
 
 <body>
