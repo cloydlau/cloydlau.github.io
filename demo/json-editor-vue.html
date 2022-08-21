@@ -40,20 +40,27 @@
 
 <body>
   <div id="app">
-    <json-editor-vue v-model="data"></json-editor-vue>
-    <p v-text="data"></p>
+    <json-editor-vue v-model="value"></json-editor-vue>
+    <p v-text="value"></p>
   </div>
 
-  <script src="https://unpkg.com/vue"></script>
-  <script src="https://unpkg.com/vue-demi"></script>
-  <script
-    src="https://unpkg.com/json-editor-vue@0.4/dist/json-editor-vue.umd.js"></script>
-  <script>
-    const { createApp, ref } = Vue
+  <script type="importmap">
+    {
+      "imports": {
+        "vue": "https://unpkg.com/vue/dist/vue.esm-browser.prod.js",
+        "vue-demi": "https://unpkg.com/vue-demi/lib/v3/index.mjs",
+        "vanilla-jsoneditor": "https://unpkg.com/vanilla-jsoneditor",
+        "json-editor-vue": "https://unpkg.com/json-editor-vue@0.5/dist/json-editor-vue.mjs"
+      }
+    }
+  </script>
+  <script type="module">
+    import { createApp, ref } from 'vue'
+    import JsonEditorVue from 'json-editor-vue'
 
     createApp({
       setup: () => ({
-        data: ref({
+        value: ref({
           'array with numbers': [1, 2, 3],
           boolean: true,
           color: '#82b92c',
@@ -67,7 +74,8 @@
           string: 'Hello World',
         })
       })
-    }).use(window['json-editor-vue'].default)
+    })
+      .use(JsonEditorVue)
       .mount('#app')
   </script>
 </body>
