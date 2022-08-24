@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>webgl-fluid</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      background: url(https://www.heishenhua.com/img/Wallpaper/blackmyth_wukong_wallpaper_013.jpg);
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+  </style>
+</head>
+
+<body>
+  <canvas></canvas>
+  <script src="https://unpkg.com/webgl-fluid@0.2"></script>
+  <script>
+    window['webgl-fluid'](document.querySelector('canvas'), {
+      TRANSPARENT: true,
+    })
+  </script>
+</body>
+
+</html>
