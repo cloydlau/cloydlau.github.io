@@ -6,6 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>json-editor-vue</title>
+  <link rel="stylesheet"
+    href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Radio.css">
+  <link rel="stylesheet"
+    href="https://unpkg.com/vanilla-jsoneditor/themes/jse-theme-dark.css">
   <style>
     html,
     body {
@@ -14,11 +18,31 @@
     }
 
     #app {
-      width: 800px;
+      width: 590px;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+    }
+
+    .theme {
+      margin-bottom: 1rem;
+    }
+
+    .theme>input:first-of-type {
+      margin-left: 12px;
+    }
+
+    .theme>input:nth-of-type(2) {
+      margin-left: 16px;
+    }
+
+    label {
+      cursor: pointer;
+    }
+
+    #json-editor-vue {
+      height: 440px;
     }
 
     p {
@@ -28,19 +52,26 @@
     }
 
     p:before {
-      content: 'Binding value:';
+      content: 'Binding value';
       position: absolute;
       top: 1rem;
       left: 1rem;
       font-weight: bold;
     }
-
   </style>
 </head>
 
 <body>
   <div id="app">
-    <json-editor-vue v-model="value"></json-editor-vue>
+    <div class="theme">
+      Theme
+      <input type="radio" id="light" is="ui-radio" value="light" v-model="theme">
+      <label for="light">Light</label>
+      <input type="radio" id="dark" is="ui-radio" value="dark" v-model="theme">
+      <label for="dark">Dark</label>
+    </div>
+    <json-editor-vue v-model="value" id="json-editor-vue" :class="className">
+    </json-editor-vue>
     <p v-text="value"></p>
   </div>
 
@@ -55,12 +86,12 @@
     }
   </script>
   <script type="module">
-    import { createApp, ref } from 'vue'
+    import { createApp, ref, computed } from 'vue'
     import JsonEditorVue from 'json-editor-vue'
 
     createApp({
-      setup: () => ({
-        value: ref({
+      setup: () => {
+        const value = ref({
           'array with numbers': [1, 2, 3],
           boolean: true,
           color: '#82b92c',
@@ -73,7 +104,16 @@
           time: 1575599819000,
           string: 'Hello World',
         })
-      })
+
+        const theme = ref('light')
+        const className = computed(() => theme.value === 'dark' ? 'jse-theme-dark' : undefined)
+
+        return {
+          value,
+          theme,
+          className,
+        }
+      }
     })
       .use(JsonEditorVue)
       .mount('#app')
