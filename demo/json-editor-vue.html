@@ -6,10 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>json-editor-vue</title>
-  <link rel="stylesheet"
-    href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Radio.css">
-  <link rel="stylesheet"
-    href="https://unpkg.com/vanilla-jsoneditor/themes/jse-theme-dark.css">
+  <link rel="stylesheet" href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Radio.css">
+  <link rel="stylesheet" href="https://unpkg.com/vanilla-jsoneditor/themes/jse-theme-dark.css">
   <style>
     html,
     body {
@@ -25,15 +23,11 @@
       transform: translate(-50%, -50%);
     }
 
-    .theme {
+    .options {
       margin-bottom: 1rem;
     }
 
-    .theme>input:first-of-type {
-      margin-left: 12px;
-    }
-
-    .theme>input:nth-of-type(2) {
+    .options>input:nth-of-type(2) {
       margin-left: 16px;
     }
 
@@ -58,19 +52,25 @@
       left: 1rem;
       font-weight: bold;
     }
+
   </style>
 </head>
 
 <body>
   <div id="app">
-    <div class="theme">
-      Theme
+    <div class="options">
       <input type="radio" id="light" is="ui-radio" value="light" v-model="theme">
       <label for="light">Light</label>
       <input type="radio" id="dark" is="ui-radio" value="dark" v-model="theme">
       <label for="dark">Dark</label>
     </div>
-    <json-editor-vue v-model="value" id="json-editor-vue" :class="className">
+    <div class="options">
+      <input type="radio" id="editable" is="ui-radio" :value="false" v-model="readOnly">
+      <label for="editable">Editable</label>
+      <input type="radio" id="readonly" is="ui-radio" :value="true" v-model="readOnly">
+      <label for="readonly">Readonly</label>
+    </div>
+    <json-editor-vue id="json-editor-vue" :class="className" v-model="value" :read-only="readOnly">
     </json-editor-vue>
     <p v-text="value"></p>
   </div>
@@ -107,11 +107,13 @@
 
         const theme = ref('light')
         const className = computed(() => theme.value === 'dark' ? 'jse-theme-dark' : undefined)
+        const readOnly = ref(false)
 
         return {
           value,
           theme,
           className,
+          readOnly,
         }
       }
     })
