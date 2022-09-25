@@ -28,12 +28,16 @@
       margin-bottom: 1rem;
     }
 
+    label {
+      user-select: none;
+    }
+
     label,
-    .options>input {
+    input {
       cursor: pointer;
     }
 
-    .options>input:not(:first-child) {
+    .options>span:not(:first-child) {
       margin-left: 1rem;
     }
 
@@ -61,26 +65,42 @@
 <body>
   <div id="app">
     <div class="options">
-      <input type="radio" is="ui-radio" id="light" value="light" v-model="theme">
-      <label for="light">Light Theme</label>
-      <input type="radio" is="ui-radio" id="dark" value="dark" v-model="theme">
-      <label for="dark">Dark Theme</label>
+      <span>
+        <input type="radio" is="ui-radio" id="light" value="light" v-model="theme">
+        <label for="light">Light Theme</label>
+      </span>
+      <span>
+        <input type="radio" is="ui-radio" id="dark" value="dark" v-model="theme">
+        <label for="dark">Dark Theme</label>
+      </span>
     </div>
     <div class="options">
-      <input type="radio" is="ui-radio" id="text" value="text" v-model="mode">
-      <label for="text">Text Mode</label>
-      <input type="radio" is="ui-radio" id="tree" value="tree" v-model="mode">
-      <label for="tree">Tree Mode</label>
+      <span>
+        <input type="radio" is="ui-radio" id="text" value="text" v-model="mode">
+        <label for="text">Text Mode</label>
+      </span>
+      <span>
+        <input type="radio" is="ui-radio" id="tree" value="tree" v-model="mode">
+        <label for="tree">Tree Mode</label>
+      </span>
     </div>
     <div class="options" style="margin-left: 1px;">
-      <input type="checkbox" is="ui-checkbox" id="readOnly" v-model="readOnly">
-      <label for="readOnly">readOnly</label>
-      <input type="checkbox" is="ui-checkbox" id="mainMenuBar" v-model="mainMenuBar">
-      <label for="mainMenuBar">mainMenuBar</label>
-      <input type="checkbox" is="ui-checkbox" id="navigationBar" v-model="navigationBar">
-      <label for="navigationBar">navigationBar</label>
-      <input type="checkbox" is="ui-checkbox" id="statusBar" v-model="statusBar">
-      <label for="statusBar">statusBar</label>
+      <span>
+        <input type="checkbox" is="ui-checkbox" id="readOnly" v-model="readOnly">
+        <label for="readOnly">readOnly</label>
+      </span>
+      <span>
+        <input type="checkbox" is="ui-checkbox" id="mainMenuBar" v-model="mainMenuBar">
+        <label for="mainMenuBar">mainMenuBar</label>
+      </span>
+      <span v-show="mode === 'tree'">
+        <input type="checkbox" is="ui-checkbox" id="navigationBar" v-model="navigationBar">
+        <label for="navigationBar">navigationBar</label>
+      </span>
+      <span v-show="mode === 'text'">
+        <input type="checkbox" is="ui-checkbox" id="statusBar" v-model="statusBar">
+        <label for="statusBar">statusBar</label>
+      </span>
     </div>
     <json-editor-vue id="json-editor-vue" :class="className" v-model="value" v-model:mode="mode"
       :read-only="readOnly" :main-menu-bar="mainMenuBar" :navigation-bar="navigationBar"
