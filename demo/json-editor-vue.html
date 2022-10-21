@@ -8,6 +8,7 @@
   <title>json-editor-vue</title>
   <link rel="stylesheet" href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Radio.css">
   <link rel="stylesheet" href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Checkbox.css">
+  <link rel="stylesheet" href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Button.css">
   <link rel="stylesheet" href="https://unpkg.com/vanilla-jsoneditor/themes/jse-theme-dark.css">
   <style>
     html,
@@ -60,6 +61,10 @@
       font-weight: bold;
     }
 
+    button {
+      margin-top: 1rem;
+    }
+
   </style>
 </head>
 
@@ -107,7 +112,7 @@
       :read-only="readOnly" :main-menu-bar="mainMenuBar" :navigation-bar="navigationBar"
       :status-bar="statusBar" :parser="parser">
     </json-editor-vue>
-    <p v-text="parser.stringify(value)"></p>
+    <button type="normal" class="ui-button" @click="printValue">Print Binding Value</button>
   </div>
 
   <script type="importmap">
@@ -153,6 +158,10 @@
         const navigationBar = ref(true)
         const statusBar = ref(true)
 
+        function printValue() {
+          console.log(value._rawValue)
+        }
+
         return {
           className,
           value,
@@ -163,6 +172,7 @@
           navigationBar,
           statusBar,
           parser,
+          printValue,
         }
       }
     })
