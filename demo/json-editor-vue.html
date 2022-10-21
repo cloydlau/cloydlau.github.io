@@ -112,7 +112,7 @@
       :read-only="readOnly" :main-menu-bar="mainMenuBar" :navigation-bar="navigationBar"
       :status-bar="statusBar" :parser="parser">
     </json-editor-vue>
-    <button type="normal" class="ui-button" @click="printValue">Print Binding Value</button>
+    <button type="normal" class="ui-button" @click="printBindingValue">Print Binding Value</button>
   </div>
 
   <script type="importmap">
@@ -158,7 +158,7 @@
         const navigationBar = ref(true)
         const statusBar = ref(true)
 
-        function printValue() {
+        function printBindingValue() {
           console.log(value._rawValue)
         }
 
@@ -172,7 +172,7 @@
           navigationBar,
           statusBar,
           parser,
-          printValue,
+          printBindingValue,
         }
       }
     })
