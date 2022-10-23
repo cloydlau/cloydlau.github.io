@@ -112,7 +112,9 @@
       :read-only="readOnly" :main-menu-bar="mainMenuBar" :navigation-bar="navigationBar"
       :status-bar="statusBar" :parser="parser">
     </json-editor-vue>
-    <button type="normal" class="ui-button" @click="printBindingValue">Print Binding Value</button>
+    <button type="primary" class="ui-button" @click="printBindingValue">
+      Print binding value in the Console
+    </button>
   </div>
 
   <script type="importmap">
