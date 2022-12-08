@@ -3,17 +3,31 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    http-equiv="X-UA-Compatible"
+    content="IE=edge"
+  >
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
   <title>json-editor-vue</title>
-  <link rel="stylesheet"
-    href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Radio.css">
-  <link rel="stylesheet"
-    href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Checkbox.css">
-  <link rel="stylesheet"
-    href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Button.css">
-  <link rel="stylesheet"
-    href="https://unpkg.com/vanilla-jsoneditor/themes/jse-theme-dark.css">
+  <link
+    rel="stylesheet"
+    href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Radio.css"
+  >
+  <link
+    rel="stylesheet"
+    href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Checkbox.css"
+  >
+  <link
+    rel="stylesheet"
+    href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Button.css"
+  >
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/vanilla-jsoneditor/themes/jse-theme-dark.css"
+  >
   <style>
     html,
     body {
@@ -76,48 +90,106 @@
   <div id="app">
     <div class="options">
       <span>
-        <input type="radio" is="ui-radio" id="light" value="light" v-model="theme">
+        <input
+          type="radio"
+          is="ui-radio"
+          id="light"
+          value="light"
+          v-model="theme"
+        >
         <label for="light">Light Theme</label>
       </span>
       <span>
-        <input type="radio" is="ui-radio" id="dark" value="dark" v-model="theme">
+        <input
+          type="radio"
+          is="ui-radio"
+          id="dark"
+          value="dark"
+          v-model="theme"
+        >
         <label for="dark">Dark Theme</label>
       </span>
     </div>
     <div class="options">
       <span>
-        <input type="radio" is="ui-radio" id="text" value="text" v-model="mode">
+        <input
+          type="radio"
+          is="ui-radio"
+          id="text"
+          value="text"
+          v-model="mode"
+        >
         <label for="text">Text Mode</label>
       </span>
       <span>
-        <input type="radio" is="ui-radio" id="tree" value="tree" v-model="mode">
+        <input
+          type="radio"
+          is="ui-radio"
+          id="tree"
+          value="tree"
+          v-model="mode"
+        >
         <label for="tree">Tree Mode</label>
       </span>
     </div>
-    <div class="options" style="margin-left: 1px;">
+    <div
+      class="options"
+      style="margin-left: 1px;"
+    >
       <span>
-        <input type="checkbox" is="ui-checkbox" id="readOnly" v-model="readOnly">
+        <input
+          type="checkbox"
+          is="ui-checkbox"
+          id="readOnly"
+          v-model="readOnly"
+        >
         <label for="readOnly">readOnly</label>
       </span>
       <span>
-        <input type="checkbox" is="ui-checkbox" id="mainMenuBar" v-model="mainMenuBar">
+        <input
+          type="checkbox"
+          is="ui-checkbox"
+          id="mainMenuBar"
+          v-model="mainMenuBar"
+        >
         <label for="mainMenuBar">mainMenuBar</label>
       </span>
       <span v-show="mode === 'tree'">
-        <input type="checkbox" is="ui-checkbox" id="navigationBar"
-          v-model="navigationBar">
+        <input
+          type="checkbox"
+          is="ui-checkbox"
+          id="navigationBar"
+          v-model="navigationBar"
+        >
         <label for="navigationBar">navigationBar</label>
       </span>
       <span v-show="mode === 'text'">
-        <input type="checkbox" is="ui-checkbox" id="statusBar" v-model="statusBar">
+        <input
+          type="checkbox"
+          is="ui-checkbox"
+          id="statusBar"
+          v-model="statusBar"
+        >
         <label for="statusBar">statusBar</label>
       </span>
     </div>
-    <json-editor-vue id="json-editor-vue" :class="className" v-model="value"
-      v-model:mode="mode" :read-only="readOnly" :main-menu-bar="mainMenuBar"
-      :navigation-bar="navigationBar" :status-bar="statusBar" :parser="parser">
+    <json-editor-vue
+      id="json-editor-vue"
+      :class="className"
+      v-model="value"
+      v-model:mode="mode"
+      :read-only="readOnly"
+      :main-menu-bar="mainMenuBar"
+      :navigation-bar="navigationBar"
+      :status-bar="statusBar"
+      :parser="parser"
+    >
     </json-editor-vue>
-    <button type="primary" class="ui-button" @click="printBindingValue">
+    <button
+      type="primary"
+      class="ui-button"
+      @click="printBindingValue"
+    >
       Print binding value in the Console
     </button>
   </div>
