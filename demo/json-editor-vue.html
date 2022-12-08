@@ -76,7 +76,7 @@
     }
 
     #json-editor-vue {
-      height: 450px;
+      height: 440px;
     }
 
     .ui-button {
@@ -130,6 +130,16 @@
           v-model="mode"
         >
         <label for="tree">Tree Mode</label>
+      </span>
+      <span>
+        <input
+          type="radio"
+          is="ui-radio"
+          id="table"
+          value="table"
+          v-model="mode"
+        >
+        <label for="table">Table Mode</label>
       </span>
     </div>
     <div
