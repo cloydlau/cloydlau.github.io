@@ -226,6 +226,7 @@
       setup: () => {
         const value = ref({
           bigint: 124124124124124124124n,
+          symbol: Symbol('foo'),
           boolean: true,
           string: 'Hello World',
           number: 123.456,
@@ -243,8 +244,8 @@
         const theme = ref('light')
         const mode = ref('tree')
         const readOnly = ref(false)
-        const mainMenuBar = ref(true)
-        const navigationBar = ref(true)
+        const mainMenuBar = ref(false)
+        const navigationBar = ref(false)
         const statusBar = ref(true)
 
         function printBindingValue() {
