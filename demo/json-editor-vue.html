@@ -33,7 +33,7 @@
       }
 
       #app {
-        width: 590px;
+        width: 670px;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -153,25 +153,7 @@
           />
           <label for="mainMenuBar">mainMenuBar</label>
         </span>
-        <span v-show="mode === 'text'">
-          <input
-            type="checkbox"
-            is="ui-checkbox"
-            id="stringified"
-            v-model="stringified"
-          />
-          <label for="stringified">stringified</label>
-        </span>
-        <span v-show="mode === 'tree'">
-          <input
-            type="checkbox"
-            is="ui-checkbox"
-            id="navigationBar"
-            v-model="navigationBar"
-          />
-          <label for="navigationBar">navigationBar</label>
-        </span>
-        <span v-show="mode === 'text'">
+        <span v-show="mode === 'text'" v-cloak>
           <input
             type="checkbox"
             is="ui-checkbox"
@@ -180,20 +162,40 @@
           />
           <label for="statusBar">statusBar</label>
         </span>
+        <span v-show="mode === 'tree'" v-cloak>
+          <input
+            type="checkbox"
+            is="ui-checkbox"
+            id="navigationBar"
+            v-model="navigationBar"
+          />
+          <label for="navigationBar">navigationBar</label>
+        </span>
+        <span v-show="mode === 'text'" v-cloak>
+          <input
+            type="checkbox"
+            is="ui-checkbox"
+            id="stringified"
+            v-model="stringified"
+          />
+          <label for="stringified">stringified</label>
+        </span>
       </div>
-      <json-editor-vue
-        id="json-editor-vue"
-        :class="className"
-        v-model="value"
-        v-model:mode="mode"
-        :read-only="readOnly"
-        :main-menu-bar="mainMenuBar"
-        :navigation-bar="navigationBar"
-        :status-bar="statusBar"
-        :stringified="stringified"
-        :parser="parser"
-      >
-      </json-editor-vue>
+      <div style="height: 440px">
+        <json-editor-vue
+          id="json-editor-vue"
+          :class="className"
+          v-model="value"
+          v-model:mode="mode"
+          :read-only="readOnly"
+          :main-menu-bar="mainMenuBar"
+          :navigation-bar="navigationBar"
+          :status-bar="statusBar"
+          :stringified="stringified"
+          :parser="parser"
+        >
+        </json-editor-vue>
+      </div>
       <div style="margin-top: 1rem">
         <label for="binding-value"> Binding Value ({{typeof value}}): </label>
         <textarea
