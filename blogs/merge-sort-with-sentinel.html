@@ -1,32 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-  <meta name="renderer" content="webkit">
-  <title></title>
-  <link rel="stylesheet" href="../css/blogs.css">
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/railscasts.min.css">
-  <style>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <meta name="renderer" content="webkit" />
+    <title></title>
+    <link rel="stylesheet" href="../css/blogs.css" />
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/railscasts.min.css"
+    />
+    <style></style>
+  </head>
+  <body>
+    <h3 id="title">[大白话] 归并排序 单循环/哨兵版</h3>
+    <article id="content"></article>
 
-  </style>
-</head>
-<body>
-<h3 id="title">[大白话] 归并排序 单循环/哨兵版</h3>
-<article id="content">
+    <script src="../js/marked.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+    <script>
+      marked.setOptions({
+        highlight: function (code) {
+          return hljs.highlightAuto(code).value
+        },
+      })
 
-</article>
-
-<script src="../js/marked.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
-<script>
-marked.setOptions({
-  highlight: function (code) {
-    return hljs.highlightAuto(code).value
-  },
-})
-
-document.getElementById('content').innerHTML = marked(`
+      document.getElementById('content').innerHTML = marked(`
 #### 前言
 归并排序关注度一直比不上快排，毕竟空间复杂度在那儿摆着，只有在最差情况上比快排厉害一些，但人家快排可以优化这一点，把这个最差情况的概率做到极低。
 
@@ -76,6 +78,6 @@ while (i < len) {
 
 <a href="https://github.com/cloydlau/merge-sort-with-sentinel" target="_blank">JS完整源码</a>
 `)
-</script>
-</body>
+    </script>
+  </body>
 </html>

@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "lint": "eslint \"**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,json,md,html,css,scss,sass}\" --ignore-pattern stats.html",
+    "lint:fix": "eslint \"**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,json,md,html,css,scss,sass}\" --ignore-pattern stats.html --fix"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.13.3",
+    "eslint-plugin-format": "^0.1.0"
+  }
+}

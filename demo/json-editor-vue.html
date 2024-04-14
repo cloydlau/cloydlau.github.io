@@ -1,196 +1,284 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>json-editor-vue</title>
-  <link rel="stylesheet"
-    href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Radio.css">
-  <link rel="stylesheet"
-    href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Checkbox.css">
-  <link rel="stylesheet"
-    href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Button.css">
-  <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/vanilla-jsoneditor/themes/jse-theme-dark.css">
-  <style>
-    html,
-    body {
-      height: 100%;
-      margin: 0;
-    }
-
-    #app {
-      width: 590px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .options {
-      margin-bottom: 1rem;
-    }
-
-    .options label {
-      user-select: none;
-    }
-
-    .options label,
-    .options input {
-      cursor: pointer;
-    }
-
-    .options>span:not(:first-child) {
-      margin-left: 1rem;
-    }
-
-    .options p {
-      border: 1px solid #d7d7d7;
-      padding: 3rem 1rem 1rem 1rem;
-      position: relative;
-      word-break: break-all;
-    }
-
-    .options p:before {
-      content: 'Binding value';
-      position: absolute;
-      top: 1rem;
-      left: 1rem;
-      font-weight: bold;
-    }
-
-    #json-editor-vue {
-      height: 440px;
-    }
-
-    .ui-button {
-      margin-top: 1rem;
-    }
-  </style>
-</head>
-
-<body>
-  <div id="app">
-    <div class="options">
-      <span>
-        <input type="radio" is="ui-radio" id="light" value="light" v-model="theme">
-        <label for="light">Light Theme</label>
-      </span>
-      <span>
-        <input type="radio" is="ui-radio" id="dark" value="dark" v-model="theme">
-        <label for="dark">Dark Theme</label>
-      </span>
-    </div>
-    <div class="options">
-      <span>
-        <input type="radio" is="ui-radio" id="text" value="text" v-model="mode">
-        <label for="text">Text Mode</label>
-      </span>
-      <span>
-        <input type="radio" is="ui-radio" id="tree" value="tree" v-model="mode">
-        <label for="tree">Tree Mode</label>
-      </span>
-      <span>
-        <input type="radio" is="ui-radio" id="table" value="table" v-model="mode">
-        <label for="table">Table Mode</label>
-      </span>
-    </div>
-    <div class="options" style="margin-left: 1px;">
-      <span>
-        <input type="checkbox" is="ui-checkbox" id="readOnly" v-model="readOnly">
-        <label for="readOnly">readOnly</label>
-      </span>
-      <span>
-        <input type="checkbox" is="ui-checkbox" id="mainMenuBar" v-model="mainMenuBar">
-        <label for="mainMenuBar">mainMenuBar</label>
-      </span>
-      <span v-show="mode === 'tree'">
-        <input type="checkbox" is="ui-checkbox" id="navigationBar"
-          v-model="navigationBar">
-        <label for="navigationBar">navigationBar</label>
-      </span>
-      <span v-show="mode === 'text'">
-        <input type="checkbox" is="ui-checkbox" id="statusBar" v-model="statusBar">
-        <label for="statusBar">statusBar</label>
-      </span>
-    </div>
-    <json-editor-vue id="json-editor-vue" :class="className" v-model="value"
-      v-model:mode="mode" :read-only="readOnly" :main-menu-bar="mainMenuBar"
-      :navigation-bar="navigationBar" :status-bar="statusBar" :parser="parser">
-    </json-editor-vue>
-    <button type="primary" class="ui-button" @click="printBindingValue">
-      Print binding value in the Console
-    </button>
-  </div>
-
-  <script type="importmap">
-    {
-      "imports": {
-        "vue": "https://cdn.jsdelivr.net/npm/vue/dist/vue.esm-browser.prod.js",
-        "vue-demi": "https://cdn.jsdelivr.net/npm/vue-demi/lib/v3/index.mjs",
-        "vanilla-jsoneditor": "https://cdn.jsdelivr.net/npm/vanilla-jsoneditor",
-        "json-editor-vue": "https://cdn.jsdelivr.net/npm/json-editor-vue/dist/json-editor-vue.mjs",
-        "lossless-json": "https://cdn.jsdelivr.net/npm/lossless-json/lib/esm/index.js"
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>json-editor-vue</title>
+    <link
+      rel="stylesheet"
+      href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Radio.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Checkbox.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Input.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Textarea.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/vanilla-jsoneditor/themes/jse-theme-dark.css"
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
       }
-    }
-  </script>
-  <script type="module">
-    import { createApp, ref, computed } from 'vue'
-    import JsonEditorVue from 'json-editor-vue'
-    import { parse, stringify } from 'lossless-json'
 
-    const parser = { parse, stringify }
+      #app {
+        width: 590px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
 
-    createApp({
-      setup: () => {
-        const value = ref({
-          bigint: 124124124124124124124n,
-          symbol: Symbol('foo'),
-          boolean: true,
-          number: 123.456,
-          string: 'Hello World',
-          null: null,
-          time: 1575599819000,
-          color: '#b0a4e3',
-          undefined: undefined,
-          array: [1, 2],
-          object: {
-            a: 'b',
-            c: 'd',
-          },
-        })
+      .options {
+        margin-bottom: 1rem;
+      }
 
-        const className = computed(() => theme.value === 'dark' ? 'jse-theme-dark' : undefined)
-        const theme = ref('light')
-        const mode = ref('tree')
-        const readOnly = ref(false)
-        const mainMenuBar = ref(false)
-        const navigationBar = ref(false)
-        const statusBar = ref(false)
+      .options label {
+        user-select: none;
+      }
 
-        function printBindingValue() {
-          console.log(value._rawValue)
-        }
+      .options label,
+      .options input {
+        cursor: pointer;
+      }
 
-        return {
-          className,
-          value,
-          theme,
-          mode,
-          readOnly,
-          mainMenuBar,
-          navigationBar,
-          statusBar,
-          parser,
-          printBindingValue,
+      .options > span:not(:first-child) {
+        margin-left: 1rem;
+      }
+
+      .options p {
+        border: 1px solid #d7d7d7;
+        padding: 3rem 1rem 1rem 1rem;
+        position: relative;
+        word-break: break-all;
+      }
+
+      .options p:before {
+        content: 'Binding value';
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        font-weight: bold;
+      }
+
+      #json-editor-vue {
+        height: 440px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="options">
+        <span>
+          <input
+            type="radio"
+            is="ui-radio"
+            id="light"
+            value="light"
+            v-model="theme"
+          />
+          <label for="light">Light Theme</label>
+        </span>
+        <span>
+          <input
+            type="radio"
+            is="ui-radio"
+            id="dark"
+            value="dark"
+            v-model="theme"
+          />
+          <label for="dark">Dark Theme</label>
+        </span>
+      </div>
+      <div class="options">
+        <span>
+          <input
+            type="radio"
+            is="ui-radio"
+            id="text"
+            value="text"
+            v-model="mode"
+          />
+          <label for="text">Text Mode</label>
+        </span>
+        <span>
+          <input
+            type="radio"
+            is="ui-radio"
+            id="tree"
+            value="tree"
+            v-model="mode"
+          />
+          <label for="tree">Tree Mode</label>
+        </span>
+        <span>
+          <input
+            type="radio"
+            is="ui-radio"
+            id="table"
+            value="table"
+            v-model="mode"
+          />
+          <label for="table">Table Mode</label>
+        </span>
+      </div>
+      <div class="options" style="margin-left: 1px">
+        <span>
+          <input
+            type="checkbox"
+            is="ui-checkbox"
+            id="readOnly"
+            v-model="readOnly"
+          />
+          <label for="readOnly">readOnly</label>
+        </span>
+        <span>
+          <input
+            type="checkbox"
+            is="ui-checkbox"
+            id="mainMenuBar"
+            v-model="mainMenuBar"
+          />
+          <label for="mainMenuBar">mainMenuBar</label>
+        </span>
+        <span v-show="mode === 'text'">
+          <input
+            type="checkbox"
+            is="ui-checkbox"
+            id="stringified"
+            v-model="stringified"
+          />
+          <label for="stringified">stringified</label>
+        </span>
+        <span v-show="mode === 'tree'">
+          <input
+            type="checkbox"
+            is="ui-checkbox"
+            id="navigationBar"
+            v-model="navigationBar"
+          />
+          <label for="navigationBar">navigationBar</label>
+        </span>
+        <span v-show="mode === 'text'">
+          <input
+            type="checkbox"
+            is="ui-checkbox"
+            id="statusBar"
+            v-model="statusBar"
+          />
+          <label for="statusBar">statusBar</label>
+        </span>
+      </div>
+      <json-editor-vue
+        id="json-editor-vue"
+        :class="className"
+        v-model="value"
+        v-model:mode="mode"
+        :read-only="readOnly"
+        :main-menu-bar="mainMenuBar"
+        :navigation-bar="navigationBar"
+        :status-bar="statusBar"
+        :stringified="stringified"
+        :parser="parser"
+      >
+      </json-editor-vue>
+      <div style="margin-top: 1rem">
+        <label for="binding-value"> Binding Value ({{typeof value}}): </label>
+        <textarea
+          class="ui-textarea"
+          name="binding-value"
+          v-model="computedValue"
+          width="100%"
+          rows="10"
+        ></textarea>
+      </div>
+    </div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "https://cdn.jsdelivr.net/npm/vue/dist/vue.esm-browser.prod.js",
+          "vue-demi": "https://cdn.jsdelivr.net/npm/vue-demi/lib/v3/index.mjs",
+          "vanilla-jsoneditor": "https://cdn.jsdelivr.net/npm/vanilla-jsoneditor",
+          "json-editor-vue": "https://cdn.jsdelivr.net/npm/json-editor-vue@latest/dist/json-editor-vue.mjs",
+          "lossless-json": "https://cdn.jsdelivr.net/npm/lossless-json/lib/esm/index.js"
         }
       }
-    })
-      .use(JsonEditorVue)
-      .mount('#app')
-  </script>
-</body>
+    </script>
+    <script type="module">
+      import { createApp, ref, computed } from 'vue'
+      import JsonEditorVue from 'json-editor-vue'
+      import { parse, stringify } from 'lossless-json'
 
+      const parser = { parse, stringify }
+
+      createApp({
+        setup: () => {
+          const value = ref({
+            bigint: 124124124124124124124n,
+            symbol: Symbol('foo'),
+            boolean: true,
+            number: 123.456,
+            string: 'Hello World',
+            null: null,
+            time: 1575599819000,
+            color: '#b0a4e3',
+            undefined: undefined,
+            array: [1, 2],
+            object: {
+              a: 'b',
+              c: 'd',
+            },
+          })
+
+          const className = computed(() =>
+            theme.value === 'dark' ? 'jse-theme-dark' : undefined,
+          )
+          const theme = ref('light')
+          const mode = ref('text')
+          const readOnly = ref(false)
+          const mainMenuBar = ref(false)
+          const navigationBar = ref(false)
+          const statusBar = ref(false)
+          const stringified = ref(false)
+          const computedValue = computed({
+            get() {
+              return parser.stringify(value.value)
+            },
+            set(newValue) {
+              value.value = parser.parse(newValue)
+            },
+          })
+
+          return {
+            className,
+            value,
+            theme,
+            mode,
+            readOnly,
+            mainMenuBar,
+            navigationBar,
+            statusBar,
+            parser,
+            stringified,
+            computedValue,
+          }
+        },
+      })
+        .use(JsonEditorVue)
+        .mount('#app')
+    </script>
+  </body>
 </html>
