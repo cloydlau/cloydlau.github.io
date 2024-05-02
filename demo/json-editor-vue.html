@@ -33,19 +33,16 @@
       body {
         height: 100%;
         margin: 0;
-        padding: env(safe-area-inset-top, 20px) env(safe-area-inset-right, 20px)
-          env(safe-area-inset-bottom, 20px) env(safe-area-inset-left, 20px);
+        padding: env(safe-area-inset-top) env(safe-area-inset-right)
+          env(safe-area-inset-bottom) env(safe-area-inset-left);
       }
 
       #app {
         width: calc(100% - 32px);
-        margin-top: 16px;
+        padding-top: 16px;
         padding-bottom: 16px;
         max-width: 670px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        margin: auto;
       }
 
       .options {
@@ -216,6 +213,7 @@
           name="binding-value"
           v-model="computedValue"
           width="100%"
+          style="height: 334px"
           rows="10"
         ></textarea>
       </div>
