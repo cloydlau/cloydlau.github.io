@@ -29,6 +29,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/vanilla-jsoneditor/themes/jse-theme-dark.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/lu2/theme/edge/css/common/ui/LightTip.css"
+    />
     <style>
       html,
       body {
@@ -77,6 +81,11 @@
         top: 1rem;
         left: 1rem;
         font-weight: bold;
+      }
+
+      ui-lighttip {
+        top: unset;
+        bottom: 16px;
       }
     </style>
   </head>
@@ -321,6 +330,14 @@
       import JsonEditorVue from 'json-editor-vue'
       import { parse, stringify } from 'lossless-json'
       import getStatistics from './json-editor-vue-statistics.js'
+      import LightTip from 'https://unpkg.com/lu2/theme/edge/js/common/ui/LightTip.js'
+
+      new LightTip(
+        'You can access this page on mobile devices, <br>or enable device toolbar in the browser devtool.',
+        {
+          time: 5000,
+        },
+      )
 
       const parser = { parse, stringify }
 
@@ -331,8 +348,7 @@
             symbol: Symbol('foo'),
             boolean: true,
             number: 123.456,
-            string:
-              'You can access this page on mobile devices, or enable device toolbar in the browser devtool.',
+            string: 'Hello World!',
             null: null,
             time: 1575599819000,
             color: '#b0a4e3',
