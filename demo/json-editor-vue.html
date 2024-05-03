@@ -132,15 +132,15 @@
               d="M256 45.398L126.517 0v272.817l109.816-60.021z"
             />
           </svg>
-          <label style="margin-left: 5px" for="jsdelivr-downloads">
-            jsdelivr downloads
+          <label style="margin-left: 5px" for="jsDelivr-downloads">
+            jsDelivr downloads
           </label>
           <input
             style="margin-left: 5px"
             class="ui-input"
             readonly
-            :value="downloads.jsdelivr"
-            id="jsdelivr-downloads"
+            :value="downloads.jsDelivr"
+            id="jsDelivr-downloads"
           />
         </span>
       </div>
@@ -332,7 +332,7 @@
           })
           const downloads = ref({
             npm: null,
-            jsdelivr: null,
+            jsDelivr: null,
             unpkg: null,
           })
           downloadsCount().then((value) => {

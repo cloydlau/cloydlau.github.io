@@ -21,16 +21,16 @@ for (const item of pastMonthsOfCurrentYear) {
   pastYears.push(`${currentYear}-${item}`)
 }
 
-function jsdelivr() {
+function jsDelivr() {
   return Promise.all(Array.from(pastYears, period => fetch(`https://data.jsdelivr.com/v1/stats/packages/npm/${name}?period=${period}`).then(response => response.json()))).then((results) => {
     const totalDownloads = results.reduce((acc, data) => acc + data.hits.total, 0)
-    console.log(`Total jsdelivr downloads: ${totalDownloads}`)
+    console.log(`Total jsDelivr downloads: ${totalDownloads}`)
     return totalDownloads
   })
 }
 
-export default () => Promise.all([npm(), jsdelivr()]).then(([npm, jsdelivr]) => ({
+export default () => Promise.all([npm(), jsDelivr()]).then(([npm, jsDelivr]) => ({
   npm,
-  jsdelivr,
+  jsDelivr,
   unpkg: 'unknown',
 }))
