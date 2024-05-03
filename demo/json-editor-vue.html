@@ -78,10 +78,6 @@
         left: 1rem;
         font-weight: bold;
       }
-
-      #json-editor-vue {
-        height: 440px;
-      }
     </style>
   </head>
 
@@ -244,21 +240,20 @@
           <label for="stringified">stringified</label>
         </span>
       </div>
-      <div style="height: 440px">
-        <json-editor-vue
-          id="json-editor-vue"
-          :class="className"
-          v-model="value"
-          v-model:mode="mode"
-          :read-only="readOnly"
-          :main-menu-bar="mainMenuBar"
-          :navigation-bar="navigationBar"
-          :status-bar="statusBar"
-          :stringified="stringified"
-          :parser="parser"
-        >
-        </json-editor-vue>
-      </div>
+      <json-editor-vue
+        style="height: 440px"
+        :class="className"
+        v-model="value"
+        v-model:mode="mode"
+        :read-only="readOnly"
+        :main-menu-bar="mainMenuBar"
+        :navigation-bar="navigationBar"
+        :status-bar="statusBar"
+        :stringified="stringified"
+        :parser="parser"
+      >
+        <div style="height: 440px; border: 0.5px solid lightgrey"></div>
+      </json-editor-vue>
       <div style="margin-top: 1rem">
         <label for="binding-value"> Binding Value ({{typeof value}}): </label>
         <textarea
@@ -291,7 +286,7 @@
 
       const parser = { parse, stringify }
 
-      createApp({
+      const app = createApp({
         setup: () => {
           const value = ref({
             bigint: 124124124124124124124n,
@@ -354,8 +349,8 @@
           }
         },
       })
-        .use(JsonEditorVue)
-        .mount('#app')
+      app.config.compilerOptions.whitespace = 'preserve'
+      app.use(JsonEditorVue).mount('#app')
     </script>
   </body>
 </html>
