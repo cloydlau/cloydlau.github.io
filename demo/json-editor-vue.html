@@ -59,10 +59,6 @@
         flex-shrink: 0;
       }
 
-      .options label {
-        user-select: none;
-      }
-
       .options label,
       .options input {
         cursor: pointer;
@@ -101,11 +97,11 @@
             <path fill="#C12127" d="M0 256V0h256v256z" />
             <path fill="#FFF" d="M48 48h160v160h-32V80h-48v128H48z" />
           </svg>
-          <label style="margin-left: 5px" for="npm-downloads">
+          <label style="margin-left: 5px; cursor: unset" for="npm-downloads">
             npm downloads
           </label>
           <input
-            style="margin-left: 5px"
+            style="margin-left: 5px; cursor: unset"
             class="ui-input"
             readonly
             :value="downloads.npm"
@@ -132,11 +128,14 @@
               d="M256 45.398L126.517 0v272.817l109.816-60.021z"
             />
           </svg>
-          <label style="margin-left: 5px" for="jsDelivr-downloads">
+          <label
+            style="margin-left: 5px; cursor: unset"
+            for="jsDelivr-downloads"
+          >
             jsDelivr downloads
           </label>
           <input
-            style="margin-left: 5px"
+            style="margin-left: 5px; cursor: unset"
             class="ui-input"
             readonly
             :value="downloads.jsDelivr"
