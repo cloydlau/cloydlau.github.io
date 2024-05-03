@@ -22,14 +22,15 @@ async function fetchWithCache(url) {
     const response = await fetch(url)
 
     // Cache the response with a specific expiration time (e.g., 1 hour)
-    const expirationTime = 60 * 60 // 1 hour in seconds
-    const cacheOptions = {
-      headers: {
-        'Cache-Control': `max-age=${expirationTime}`, // Set cache expiration time
-      },
+    if (response.ok) {
+      const expirationTime = 60 * 60 // 1 hour in seconds
+      const cacheOptions = {
+        headers: {
+          'Cache-Control': `max-age=${expirationTime}`, // Set cache expiration time
+        },
+      }
+      await cache.put(url, response.clone(), new Response(null, cacheOptions))
     }
-    await cache.put(url, response.clone(), new Response(null, cacheOptions))
-    console.log(response)
     return response.json()
   }
 }
@@ -52,8 +53,8 @@ for (const item of pastMonthsOfCurrentYear) {
 }
 
 function jsDelivrDownloads() {
-  return Promise.all(Array.from(pastYears, period => fetchWithCache(`https://data.jsdelivr.com/v1/stats/packages/npm/${name}?period=${period}`))).then((results) => {
-    const totalDownloads = results.reduce((acc, data) => acc + data.hits.total, 0)
+  return Promise.allSettled(Array.from(pastYears, period => fetchWithCache(`https://data.jsdelivr.com/v1/stats/packages/npm/${name}?period=${period}`))).then((results) => {
+    const totalDownloads = results.reduce((acc, { value }) => acc + (value.hits?.total || 0), 0)
     console.log(`Total jsDelivr downloads: ${totalDownloads}`)
     return totalDownloads
   })
