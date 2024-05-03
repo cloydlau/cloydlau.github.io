@@ -32,7 +32,7 @@ function jsDelivrDownloads() {
 function githubStars() {
   return fetch(`https://api.github.com/repos/cloydlau/${name}`).then(response => response.json()).then((data) => {
     console.log(`Total GitHub Stars: ${data.stargazers_count}`)
-    return data.stargazers_count
+    return `${data.stargazers_count} 🆘`
   })
 }
 
