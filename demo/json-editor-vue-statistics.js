@@ -4,8 +4,38 @@ const initialPublishYear = Number(initialPublishDate.substring(0, 4))
 const date = new Date()
 const currentDate = date.toISOString().split('T')[0]
 
+async function fetchWithCache(url) {
+  const cacheName = 'my-cache' // Name for the cache
+  const cache = await caches.open(cacheName) // Open the cache
+
+  // Check if the response is in the cache
+  const cachedResponse = await cache.match(url)
+
+  if (cachedResponse) {
+    console.log(`[命中缓存] ${url}`)
+    // If response is cached, return it
+    return cachedResponse.json()
+  }
+  else {
+    console.log(`[发起请求] ${url}`)
+    // If response is not cached, fetch it from the network
+    const response = await fetch(url)
+
+    // Cache the response with a specific expiration time (e.g., 1 hour)
+    const expirationTime = 60 * 60 // 1 hour in seconds
+    const cacheOptions = {
+      headers: {
+        'Cache-Control': `max-age=${expirationTime}`, // Set cache expiration time
+      },
+    }
+    await cache.put(url, response.clone(), new Response(null, cacheOptions))
+    console.log(response)
+    return response.json()
+  }
+}
+
 function npmDownloads() {
-  return fetch(`https://api.npmjs.org/downloads/range/${initialPublishDate}:${currentDate}/${name}`).then(response => response.json()).then((data) => {
+  return fetchWithCache(`https://api.npmjs.org/downloads/range/${initialPublishDate}:${currentDate}/${name}`).then((data) => {
     const totalDownloads = data.downloads.reduce((acc, day) => acc + day.downloads, 0)
     console.log(`Total npm downloads: ${totalDownloads}`)
     return totalDownloads
@@ -22,7 +52,7 @@ for (const item of pastMonthsOfCurrentYear) {
 }
 
 function jsDelivrDownloads() {
-  return Promise.all(Array.from(pastYears, period => fetch(`https://data.jsdelivr.com/v1/stats/packages/npm/${name}?period=${period}`).then(response => response.json()))).then((results) => {
+  return Promise.all(Array.from(pastYears, period => fetchWithCache(`https://data.jsdelivr.com/v1/stats/packages/npm/${name}?period=${period}`))).then((results) => {
     const totalDownloads = results.reduce((acc, data) => acc + data.hits.total, 0)
     console.log(`Total jsDelivr downloads: ${totalDownloads}`)
     return totalDownloads
@@ -30,7 +60,7 @@ function jsDelivrDownloads() {
 }
 
 function githubStars() {
-  return fetch(`https://api.github.com/repos/cloydlau/${name}`).then(response => response.json()).then((data) => {
+  return fetchWithCache(`https://api.github.com/repos/cloydlau/${name}`).then((data) => {
     console.log(`Total GitHub Stars: ${data.stargazers_count}`)
     return data.stargazers_count ? `${data.stargazers_count} 🆘` : '🆘'
   })
