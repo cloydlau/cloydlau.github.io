@@ -332,6 +332,14 @@
       import getStatistics from './json-editor-vue-statistics.js'
       import LightTip from 'https://unpkg.com/lu2/theme/edge/js/common/ui/LightTip.js'
 
+      const name = 'json-editor-vue'
+
+      fetch(
+        `https://cdn.jsdelivr.net/npm/${name}@latest/dist/${name}.mjs`,
+      ).then((res) => {
+        document.title = `${name}@${res.headers.get('X-Jsd-Version')}`
+      })
+
       new LightTip(
         'You can access this page on mobile devices, <br>or enable device toolbar in the browser devtool.',
         {
