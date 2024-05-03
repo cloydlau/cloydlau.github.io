@@ -4,7 +4,7 @@ const initialPublishYear = Number(initialPublishDate.substring(0, 4))
 const date = new Date()
 const currentDate = date.toISOString().split('T')[0]
 
-function npm() {
+function npmDownloads() {
   return fetch(`https://api.npmjs.org/downloads/range/${initialPublishDate}:${currentDate}/${name}`).then(response => response.json()).then((data) => {
     const totalDownloads = data.downloads.reduce((acc, day) => acc + day.downloads, 0)
     console.log(`Total npm downloads: ${totalDownloads}`)
@@ -21,7 +21,7 @@ for (const item of pastMonthsOfCurrentYear) {
   pastYears.push(`${currentYear}-${item}`)
 }
 
-function jsDelivr() {
+function jsDelivrDownloads() {
   return Promise.all(Array.from(pastYears, period => fetch(`https://data.jsdelivr.com/v1/stats/packages/npm/${name}?period=${period}`).then(response => response.json()))).then((results) => {
     const totalDownloads = results.reduce((acc, data) => acc + data.hits.total, 0)
     console.log(`Total jsDelivr downloads: ${totalDownloads}`)
@@ -29,8 +29,16 @@ function jsDelivr() {
   })
 }
 
-export default () => Promise.all([npm(), jsDelivr()]).then(([npm, jsDelivr]) => ({
-  npm,
-  jsDelivr,
-  unpkg: 'unknown',
+function githubStars() {
+  return fetch(`https://api.github.com/repos/cloydlau/${name}`).then(response => response.json()).then((data) => {
+    console.log(`Total GitHub Stars: ${data.stargazers_count}`)
+    return data.stargazers_count
+  })
+}
+
+export default () => Promise.all([npmDownloads(), jsDelivrDownloads(), githubStars()]).then(([npmDownloads, jsDelivrDownloads, githubStars]) => ({
+  npmDownloads,
+  jsDelivrDownloads,
+  unpkgDownloads: 'unknown',
+  githubStars,
 }))
