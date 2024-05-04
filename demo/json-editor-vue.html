@@ -332,9 +332,31 @@
         <div style="height: 440px; border: 0.5px solid lightgrey"></div>
       </json-editor-vue>
       <div style="margin-top: 1rem">
-        <label for="binding-value">
-          2-Way Binding Value ({{typeof value}}):
-        </label>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          "
+        >
+          <label for="binding-value">
+            2-Way Binding Value ({{typeof value}}):
+          </label>
+          <button
+            style="width: 62px"
+            @click="() => {
+              window.navigator.clipboard.writeText(valueComputed)
+              const copyButton=document.querySelector('#copyButton')
+              copyButton.innerText = 'Copied!'
+              window.setTimeout(() => {
+                copyButton.innerText = 'Copy'
+              }, 300)
+            }"
+            id="copyButton"
+          >
+            Copy
+          </button>
+        </div>
         <textarea
           class="ui-textarea"
           name="binding-value"
@@ -439,6 +461,7 @@
             valueComputed,
             statistics,
             window,
+            document,
             name,
             latestVersion,
           }
