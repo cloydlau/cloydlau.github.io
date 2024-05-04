@@ -350,9 +350,14 @@
               window.navigator.clipboard.writeText(valueComputed)
               const copyButton=document.querySelector('#copyButton')
               copyButton.innerText = 'Copied!'
-              window.setTimeout(() => {
+              if (timeoutID) {
+                window.clearTimeout(timeoutID)
+                timeoutID = null
+              }
+              timeoutID = window.setTimeout(() => {
                 copyButton.innerText = 'Copy'
-              }, 300)
+                timeoutID = null
+              }, 500)
             }"
             id="copyButton"
           >
@@ -448,6 +453,7 @@
           getStatistics().then((value) => {
             statistics.value = value
           })
+          const timeoutID = ref()
 
           return {
             className,
@@ -466,6 +472,7 @@
             document,
             name,
             latestVersion,
+            timeoutID,
           }
         },
       })
