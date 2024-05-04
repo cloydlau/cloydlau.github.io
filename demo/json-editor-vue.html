@@ -329,7 +329,7 @@
         :stringified="stringified"
         :parser="parser"
       >
-        <div style="height: 440px; border: 0.5px solid lightgrey"></div>
+        <div style="height: 438px; border: 1px solid lightgrey"></div>
       </json-editor-vue>
       <div style="margin-top: 1rem">
         <div
@@ -339,10 +339,8 @@
             justify-content: space-between;
           "
         >
-          <label
-            for="binding-value"
-            v-text="`2-Way Binding Value (${typeof value}):`"
-          >
+          <label for="binding-value">
+            2-Way Binding Value<span v-text="` (${typeof value})`"></span>:
           </label>
           <button
             style="width: 62px"
