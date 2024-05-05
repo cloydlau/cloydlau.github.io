@@ -238,11 +238,10 @@
             <span
               style="
                 position: absolute;
-                bottom: 10px;
+                bottom: 4px;
                 right: 5px;
                 font-size: 12px;
-                display: flex;
-                align-items: center;
+
                 color: -webkit-link;
                 cursor: pointer;
                 text-decoration: underline;
@@ -251,18 +250,21 @@
                 window.open(`https://github.com/search?q=%22${name}%22%3A+%22%5E${latestVersion}%22&type=code`)
               }"
             >
-              Used by
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="currentColor"
-                  d="M6.188 17.288L5.5 16.6L15.58 6.5H6.289v-1h11v11h-1V7.208z"
-                />
-              </svg>
+              Latest version<br />
+              <span style="display: flex; align-items: center">
+                used by
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M6.188 17.288L5.5 16.6L15.58 6.5H6.289v-1h11v11h-1V7.208z"
+                  />
+                </svg>
+              </span>
             </span>
           </span>
         </span>
