@@ -1,6 +1,5 @@
 const name = 'json-editor-vue'
 const initialPublishDate = '2020-07-15'
-const initialPublishYear = Number(initialPublishDate.substring(0, 4))
 const date = new Date()
 const currentDate = date.toISOString().split('T')[0]
 
@@ -37,26 +36,16 @@ async function fetchWithCache(url) {
 
 function npmDownloads() {
   return fetchWithCache(`https://api.npmjs.org/downloads/range/${initialPublishDate}:${currentDate}/${name}`).then((data) => {
-    const totalDownloads = data.downloads.reduce((acc, day) => acc + day.downloads, 0)
-    console.log(`Total npm downloads: ${totalDownloads}`)
-    return totalDownloads
+    const res = data.downloads.reduce((acc, day) => acc + day.downloads, 0)
+    console.log(`Total npm downloads: ${res}`)
+    return res
   })
 }
 
-const currentYear = date.getFullYear()
-const currentMonth = date.getMonth()
-const pastYears = Array.from({ length: currentYear - initialPublishYear }, (_, i) => (i + initialPublishYear).toString())
-const pastMonthsOfCurrentYear = Array.from({ length: currentMonth }, (_, i) => (i + 1).toString().padStart(2, '0'))
-
-for (const item of pastMonthsOfCurrentYear) {
-  pastYears.push(`${currentYear}-${item}`)
-}
-
 function jsDelivrDownloads() {
-  return Promise.allSettled(Array.from(pastYears, period => fetchWithCache(`https://data.jsdelivr.com/v1/stats/packages/npm/${name}?period=${period}`))).then((results) => {
-    const totalDownloads = results.reduce((acc, { value }) => acc + (value.hits?.total || 0), 0)
-    console.log(`Total jsDelivr downloads: ${totalDownloads}`)
-    return totalDownloads
+  return fetchWithCache(`https://data.jsdelivr.com/v1/stats/packages/npm/${name}?period=all`).then((data) => {
+    console.log(`Total jsDelivr downloads: ${data.hits.total}`)
+    return data.hits.total
   })
 }
 
