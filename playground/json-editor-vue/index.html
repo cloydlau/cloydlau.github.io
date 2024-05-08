@@ -209,7 +209,7 @@
                 cursor: pointer;
                 text-decoration: underline;
               "
-              @click="() => {
+              @click.stop="() => {
                 window.open(`https://github.com/cloydlau/${name}/network/dependents`)
               }"
             >
@@ -246,7 +246,7 @@
                 cursor: pointer;
                 text-decoration: underline;
               "
-              @click="() => {
+              @click.stop="() => {
                 window.open(`https://github.com/search?q=%22${name}%22%3A+%22%5E${latestVersion}%22&type=code`)
               }"
             >
