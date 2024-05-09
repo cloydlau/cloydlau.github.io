@@ -4,33 +4,29 @@ const date = new Date()
 const currentDate = date.toISOString().split('T')[0]
 
 async function fetchWithCache(url) {
-  const cacheName = 'my-cache' // Name for the cache
-  const cache = await caches.open(cacheName) // Open the cache
-
-  // Check if the response is in the cache
-  const cachedResponse = await cache.match(url)
+  const cache = await caches.open(name) // 打开缓存
+  const cachedResponse = await cache.match(url) // 检查是否有缓存
 
   if (cachedResponse) {
-    console.log(`[命中缓存] ${url}`)
-    // If response is cached, return it
-    return cachedResponse.json()
-  }
-  else {
-    console.log(`[发起请求] ${url}`)
-    // If response is not cached, fetch it from the network
-    const response = await fetch(url)
-
-    // Cache the response with a specific expiration time (e.g., 1 hour)
-    if (response.ok) {
-      const expirationTime = 60 * 60 // 1 hour in seconds
-      const cacheOptions = {
-        headers: {
-          'Cache-Control': `max-age=${expirationTime}`, // Set cache expiration time
-        },
-      }
-      await cache.put(url, response.clone(), new Response(null, cacheOptions))
+    const data = await cachedResponse.json()
+    const isExpired = Date.now() > data.expiry // 判断缓存是否过期
+    if (!isExpired) {
+      console.log(`[命中缓存] ${url}`)
+      return data.response
     }
-    return response.json()
+  }
+
+  console.log(`[发起请求] ${url}`)
+  const response = await fetch(url) // 发起新请求
+  if (response.ok) {
+    const responseBody = await response.json()
+    const expirationTime = 60 * 60 * 1000 // 缓存过期时间（例如，1小时）
+    const cacheData = {
+      expiry: Date.now() + expirationTime,
+      response: responseBody,
+    }
+    await cache.put(url, new Response(JSON.stringify(cacheData))) // 存储带有时间戳的数据
+    return responseBody
   }
 }
 
