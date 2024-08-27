@@ -238,7 +238,7 @@
             <span
               style="
                 position: absolute;
-                bottom: 4px;
+                bottom: 12px;
                 right: 5px;
                 font-size: 12px;
 
@@ -247,12 +247,11 @@
                 text-decoration: underline;
               "
               @click.stop="() => {
-                window.open(`https://github.com/search?q=%22${name}%22%3A+%22%5E${latestVersion}%22+path%3Apackage.json&type=code`)
+                window.open(`https://github.com/search?q=%22${name}%22%3A+path%3Apackage.json&type=code`)
               }"
             >
-              Latest version<br />
               <span style="display: flex; align-items: center">
-                used by
+                Used by
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="12"
