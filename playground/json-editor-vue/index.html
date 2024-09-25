@@ -29,10 +29,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/vanilla-jsoneditor/themes/jse-theme-dark.css"
     />
-    <link
+    <!-- <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/lu2/theme/edge/css/common/ui/LightTip.css"
-    />
+    /> -->
     <style>
       html,
       body {
@@ -82,10 +82,10 @@
         font-weight: bold;
       }
 
-      ui-lighttip {
+      /* ui-lighttip {
         top: unset;
         bottom: 16px;
-      }
+      } */
     </style>
   </head>
 
@@ -427,7 +427,7 @@
       import JsonEditorVue from 'json-editor-vue'
       import { parse, stringify } from 'lossless-json'
       import getStatistics from './getStatistics.js'
-      import LightTip from 'https://cdn.jsdelivr.net/npm/lu2/theme/edge/js/common/ui/LightTip.js'
+      // import LightTip from 'https://cdn.jsdelivr.net/npm/lu2/theme/edge/js/common/ui/LightTip.js'
 
       const name = 'json-editor-vue'
       const latestVersion = ref()
@@ -439,12 +439,12 @@
         document.title = `${name}@${latestVersion.value}`
       })
 
-      new LightTip(
+      /* new LightTip(
         'You can access this page on mobile devices, <br>or enable device toolbar in the browser devtool.',
         {
           time: 5000,
         },
-      )
+      ) */
 
       const parser = { parse, stringify }
 
