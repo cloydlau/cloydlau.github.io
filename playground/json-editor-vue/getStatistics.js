@@ -54,6 +54,7 @@ function githubStars() {
 
 export default () => Promise.allSettled([npmDownloads(), jsDelivrDownloads(), githubStars()]).then(([{ value: npmDownloads }, { value: jsDelivrDownloads }, { value: githubStars }]) => ({
   npmDownloads,
+  jsrDownloads: 'unknown❓',
   jsDelivrDownloads,
   unpkgDownloads: 'unknown❓',
   githubStars,

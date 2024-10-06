@@ -4,7 +4,7 @@
     "lint:fix": "eslint \"**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,json,md,html,css,scss,sass}\" --ignore-pattern stats.html --fix"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.16.1",
-    "eslint-plugin-format": "^0.1.1"
+    "@antfu/eslint-config": "^3.7.3",
+    "eslint-plugin-format": "^0.1.2"
   }
 }
