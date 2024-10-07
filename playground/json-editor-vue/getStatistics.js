@@ -3,7 +3,8 @@ const initialPublishDate = '2020-07-15'
 const date = new Date()
 const currentDate = date.toISOString().split('T')[0]
 
-async function fetchWithCache(url) {
+async function fetchWithCache(...args) {
+  const [url] = args
   const cache = await caches.open(name) // 打开缓存
   const cachedResponse = await cache.match(url) // 检查是否有缓存
 
@@ -17,7 +18,7 @@ async function fetchWithCache(url) {
   }
 
   console.log(`[发起请求] ${url}`)
-  const response = await fetch(url) // 发起新请求
+  const response = await fetch(...args) // 发起新请求
   if (response.ok) {
     const responseBody = await response.json()
     const expirationTime = 60 * 60 * 1000 // 缓存过期时间（例如，1小时）
@@ -31,6 +32,9 @@ async function fetchWithCache(url) {
 }
 
 function npmDownloads() {
+  // 总量，但存在跨域限制：
+  // `https://npm-stat.com/api/download-counts?package=json-editor-vue&from=${initialPublishDate}&until=${currentDate}`
+  // 最大支持18个月：
   return fetchWithCache(`https://api.npmjs.org/downloads/range/${initialPublishDate}:${currentDate}/${name}`).then((data) => {
     const res = data.downloads.reduce((acc, day) => acc + day.downloads, 0)
     console.log(`Total npm downloads: ${res}`)
