@@ -77,7 +77,7 @@
         <span
           style="display: flex; align-items: center; cursor: pointer; position: relative"
           @click="() => {
-            window.open('https://npm.chart.dev/json-editor-vue')
+            window.open('https://www.npmjs.com/package/json-editor-vue?activeTab=versions')
           }"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256">
@@ -95,18 +95,30 @@
           <span
             style="
               position: absolute;
-              bottom: 0;
-              right: 80px;
+              bottom: -2px;
+              right: 16px;
               font-size: 12px;
               transform: scale(0.7);
               display: flex;
               align-items: center;
             "
-            @click.stop="() => {
-              window.open('https://www.npmjs.com/package/json-editor-vue?activeTab=versions')
-            }"
           >
-            <span>Last 18 months</span>
+            <span>
+              Last 18 months,&nbsp;
+              <span
+                style="
+                  font-size: 16px;
+                  color: -webkit-link;
+                  cursor: pointer;
+                  text-decoration: underline;
+                "
+                @click.stop="() => {
+                  window.open('https://npm.chart.dev/json-editor-vue')
+                }"
+              >
+                see total
+              </span>
+            </span>
           </span>
         </span>
         <span
@@ -223,6 +235,42 @@
               <span style="display: flex; align-items: center"> package.json usage </span>
             </span>
           </span>
+        </span>
+        <span
+          style="display: flex; align-items: center; cursor: pointer"
+          @click="() => {
+          window.open(`https://github.com/cloydlau/${name}`)
+        }"
+        >
+          <img src="https://arethetypeswrong.github.io/icons/android-chrome-512x512.png" style="width: 16px">
+          <span style="position: relative">
+            <label style="margin-left: 5px" for="attw">Are the types wrong?</label>
+          </span>
+          <span style="position: relative">
+            <input
+              style="margin-left: 5px"
+              class="ui-input"
+              readonly
+              id="attw"
+            />
+            <span
+              style="
+                position: absolute;
+                top: 11px;
+                right: 110px;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+                color: -webkit-link;
+                cursor: pointer;
+                text-decoration: underline;
+              "
+              @click.stop="() => {
+                window.open(`https://arethetypeswrong.github.io/?p=${name}`)
+              }"
+            >
+              Analyze
+            </span>
         </span>
       </div>
       <hr style="background-color: #d3d8dc; border: none; height: 1px; margin-bottom: 16px" />
