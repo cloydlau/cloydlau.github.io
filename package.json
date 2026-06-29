@@ -1,0 +1,51 @@
+{
+  "scripts": {
+    "lint": "eslint \"**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,json,md,html,css,scss,sass}\"",
+    "lint:fix": "eslint \"**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,json,md,html,css,scss,sass}\" --fix",
+    "lint:inspect": "npx @eslint/config-inspector@latest",
+    "preinstall": "npx only-allow pnpm && pnpm config set registry https://registry.npmmirror.com",
+    "postinstall": "npx simple-git-hooks && git config core.hooksPath .git/hooks/ && npx license-checker --summary --out ./licenses.txt"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "latest",
+    "@commitlint/cli": "latest",
+    "@commitlint/config-conventional": "latest",
+    "@eslint/eslintrc": "latest",
+    "browserslist": "latest",
+    "case-police": "latest",
+    "eslint": "latest",
+    "eslint-plugin-financial": "latest",
+    "eslint-plugin-format": "latest",
+    "eslint-plugin-no-unsanitized": "latest",
+    "license-checker": "latest",
+    "lint-staged": "latest",
+    "npm-deprecated-check": "latest",
+    "only-allow": "latest",
+    "simple-git-hooks": "latest",
+    "zhlint": "latest"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged",
+    "commit-msg": "npx --no -- commitlint --edit ${1}"
+  },
+  "lint-staged": {
+    "*.md": [
+      "case-police --fix",
+      "zhlint --fix"
+    ],
+    "*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,json,md,html,css,scss,sass}": "eslint --cache --fix"
+  },
+  "browserslist": [
+    "last 6 years",
+    "last 2 major versions",
+    "not dead",
+    "> 0.2%",
+    "chrome >= 87",
+    "firefox >= 78",
+    "firefox esr",
+    "safari >= 14",
+    "edge >= 88",
+    "ios >= 12",
+    "android >= 9"
+  ]
+}
