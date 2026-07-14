@@ -1,5 +1,5 @@
 const USERNAME = 'cloydlau'
-const CACHE_KEY = `recent-pull-requests:${USERNAME}:v4`
+const CACHE_KEY = `pull-requests:${USERNAME}:v5`
 const CACHE_TTL = 60 * 60 * 1000
 
 const elements = {
