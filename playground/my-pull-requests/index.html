@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Discover cloydlau's recent open source pull requests on GitHub." />
+    <meta name="color-scheme" content="light dark" />
+    <title>cloydlau is Contributing</title>
+    <link rel="preconnect" href="https://api.github.com" />
+    <link rel="preconnect" href="https://avatars.githubusercontent.com" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="profile">
+        <a class="avatar-link" href="https://github.com/cloydlau" target="_blank" rel="noreferrer">
+          <img
+            id="avatar"
+            class="avatar"
+            src="https://github.com/cloydlau.png?size=160"
+            alt="cloydlau"
+            width="80"
+            height="80"
+          />
+        </a>
+        <h1><a id="profile-name" href="https://github.com/cloydlau">cloydlau</a> is <span>Contributing...</span></h1>
+        <p class="subtitle">
+          <a href="https://github.com/cloydlau" target="_blank" rel="noreferrer">
+            @cloydlau's recent public pull requests on GitHub.
+          </a>
+        </p>
+        <nav class="actions" aria-label="Page actions">
+          <button id="theme-toggle" type="button" aria-label="Switch color theme">
+            <svg class="sun" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path
+                d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"
+              ></path>
+            </svg>
+            <svg class="moon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path>
+            </svg>
+          </button>
+          <a href="https://github.com/cloydlau" target="_blank" rel="noreferrer" aria-label="GitHub profile">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.87c-2.78.61-3.37-1.18-3.37-1.18-.45-1.17-1.11-1.48-1.11-1.48-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.64-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.84c.85 0 1.71.11 2.51.34 1.91-1.3 2.75-1.03 2.75-1.03.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.76c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"
+              ></path>
+            </svg>
+          </a>
+        </nav>
+        <div class="divider"></div>
+      </header>
+
+      <section aria-labelledby="pull-requests-title">
+        <div class="list-heading">
+          <h2 id="pull-requests-title" class="visually-hidden">Recent pull requests</h2>
+          <span id="result-count" aria-live="polite"></span>
+        </div>
+        <div id="status" class="status" role="status">
+          <span class="spinner" aria-hidden="true"></span>
+          Loading recent pull requests…
+        </div>
+        <div id="pull-requests" class="pull-requests"></div>
+      </section>
+
+      <footer>
+        Inspired by
+        <a href="https://github.com/atinux/my-pull-requests" target="_blank" rel="noreferrer">my-pull-requests</a>. Data
+        provided by GitHub.
+      </footer>
+    </main>
+
+    <svg class="icon-library" aria-hidden="true">
+      <symbol id="icon-open" viewBox="0 0 24 24">
+        <circle cx="18" cy="18" r="3"></circle>
+        <circle cx="6" cy="6" r="3"></circle>
+        <path d="M6 9v9a3 3 0 0 0 3 3h6M18 15V6M15 9l3-3 3 3"></path>
+      </symbol>
+      <symbol id="icon-merged" viewBox="0 0 24 24">
+        <circle cx="18" cy="18" r="3"></circle>
+        <circle cx="6" cy="6" r="3"></circle>
+        <path d="M6 9v6a3 3 0 0 0 3 3h6M18 15V9a3 3 0 0 0-3-3h-3"></path>
+      </symbol>
+      <symbol id="icon-closed" viewBox="0 0 24 24">
+        <circle cx="18" cy="18" r="3"></circle>
+        <circle cx="6" cy="6" r="3"></circle>
+        <path d="M6 9v9a3 3 0 0 0 3 3h6M18 15V6M15 9l6-6M21 9l-6-6"></path>
+      </symbol>
+      <symbol id="icon-draft" viewBox="0 0 24 24">
+        <circle cx="18" cy="18" r="3"></circle>
+        <circle cx="6" cy="6" r="3"></circle>
+        <path d="M6 9v6a3 3 0 0 0 3 3h6"></path>
+        <path d="M18 6h.01"></path>
+      </symbol>
+    </svg>
+
+    <template id="pull-request-template">
+      <article class="pull-request">
+        <a class="repo-avatar-link" target="_blank" rel="noreferrer">
+          <img class="repo-avatar" width="48" height="48" alt="" loading="lazy" />
+        </a>
+        <div class="pull-request-main">
+          <a class="pull-request-title" target="_blank" rel="noreferrer">
+            <svg class="state-icon" viewBox="0 0 24 24" aria-hidden="true"><use></use></svg>
+            <span></span>
+          </a>
+          <div class="repo-details">
+            <a class="repo-name" target="_blank" rel="noreferrer"></a>
+            <span class="repo-stars">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="m12 2.7 2.85 5.77 6.37.93-4.61 4.49 1.09 6.34L12 17.24l-5.7 2.99 1.09-6.34L2.78 9.4l6.37-.93L12 2.7Z"
+                ></path>
+              </svg>
+              <span></span>
+            </span>
+          </div>
+        </div>
+        <div class="pull-request-meta">
+          <a class="pull-request-number" target="_blank" rel="noreferrer"></a>
+          <time></time>
+        </div>
+      </article>
+    </template>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
