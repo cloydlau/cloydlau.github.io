@@ -4,7 +4,7 @@ import process from 'node:process'
 const USERNAME = 'cloydlau'
 const OUTPUT_URL = new URL('./data.json', import.meta.url)
 const query = `
-  query RecentPullRequests($login: String!, $search: String!) {
+  query PullRequests($login: String!, $search: String!) {
     user(login: $login) {
       login
       name
