@@ -11,10 +11,7 @@
     <link rel="stylesheet" href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Input.css" />
     <link rel="stylesheet" href="https://qidian.gtimg.com/lulu/edge/css/common/ui/Textarea.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-jsoneditor/themes/jse-theme-dark.css" />
-    <!-- <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/lu2/theme/edge/css/common/ui/LightTip.css"
-    /> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lu2/theme/edge/css/common/ui/LightTip.css" />
     <style>
       html,
       body {
@@ -64,10 +61,30 @@
         font-weight: bold;
       }
 
-      /* ui-lighttip {
+      ui-lighttip {
         top: unset;
         bottom: 16px;
-      } */
+      }
+
+      .skeleton {
+        display: inline-block;
+        vertical-align: -2px;
+        width: 7.5em;
+        height: 1em;
+        border-radius: 3px;
+        background: linear-gradient(90deg, #e8ecf0 25%, #f4f6f8 50%, #e8ecf0 75%);
+        background-size: 200% 100%;
+        animation: skeleton-shimmer 1.2s ease-in-out infinite;
+      }
+
+      @keyframes skeleton-shimmer {
+        0% {
+          background-position: 100% 0;
+        }
+        100% {
+          background-position: -100% 0;
+        }
+      }
     </style>
   </head>
 
@@ -278,7 +295,31 @@
             </span>
         </span> -->
       </div>
-      <hr style="background-color: #d3d8dc; border: none; height: 1px; margin-bottom: 16px" />
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 16px;
+          color: #5c6b73;
+          font-size: 13px;
+          white-space: nowrap;
+        "
+      >
+        <hr style="flex: 1; background-color: #d3d8dc; border: none; height: 1px; margin: 0" />
+        <span>
+          Annual downloads
+          <strong
+            v-if="statistics.annualDownloads"
+            style="color: #1a1a1a; font-variant-numeric: tabular-nums; cursor: pointer"
+            title="Click to copy"
+            @click="copyAnnualDownloads"
+            v-text="statistics.annualDownloads"
+          ></strong>
+          <span v-else class="skeleton" aria-hidden="true"></span>
+        </span>
+        <hr style="flex: 1; background-color: #d3d8dc; border: none; height: 1px; margin: 0" />
+      </div>
       <div class="options">
         <span>
           <input type="radio" is="ui-radio" id="light" value="light" v-model="theme" />
@@ -363,12 +404,12 @@
           </button>
         </div>
         <textarea
+          ref="bindingValueEl"
           class="ui-textarea"
           name="binding-value"
           v-model="valueComputed"
-          width="100%"
-          style="height: 150px; border-radius: 0"
-          rows="10"
+          rows="3"
+          style="width: 100%; border-radius: 0; overflow: hidden; resize: none"
         ></textarea>
       </div>
     </div>
@@ -385,11 +426,11 @@
       }
     </script>
     <script type="module">
-      import { createApp, ref, computed } from 'vue'
+      import { createApp, ref, computed, watch, nextTick } from 'vue'
       import JsonEditorVue from 'json-editor-vue'
       import { parse, stringify } from 'lossless-json'
       import getStatistics from './getStatistics.js'
-      // import LightTip from 'https://cdn.jsdelivr.net/npm/lu2/theme/edge/js/common/ui/LightTip.js'
+      import LightTip from 'https://cdn.jsdelivr.net/npm/lu2/theme/edge/js/common/ui/LightTip.js'
 
       const name = 'json-editor-vue'
       const latestVersion = ref()
@@ -398,13 +439,6 @@
         latestVersion.value = res.headers.get('X-Jsd-Version')
         document.title = `${name}@${latestVersion.value}`
       })
-
-      /* new LightTip(
-        'You can access this page on mobile devices, <br>or enable device toolbar in the browser devtool.',
-        {
-          time: 5000,
-        },
-      ) */
 
       const parser = { parse, stringify }
 
@@ -443,10 +477,28 @@
               value.value = parser.parse(newValue)
             },
           })
+          const bindingValueEl = ref()
+          const resizeBindingValue = () => {
+            nextTick(() => {
+              const el = bindingValueEl.value
+              if (!el) return
+              el.style.height = 'auto'
+              const lineHeight = Number.parseFloat(getComputedStyle(el).lineHeight) || 20
+              // content height + 3 extra lines
+              el.style.height = `${el.scrollHeight + lineHeight * 3}px`
+            })
+          }
+          watch(valueComputed, resizeBindingValue, { immediate: true })
           const statistics = ref({})
           getStatistics().then((value) => {
             statistics.value = value
           })
+          const copyAnnualDownloads = () => {
+            const text = statistics.value.annualDownloads
+            if (!text) return
+            window.navigator.clipboard.writeText(text)
+            new LightTip('Copied!', { time: 1500 })
+          }
           const timeoutID = ref()
 
           return {
@@ -461,7 +513,9 @@
             parser,
             stringified,
             valueComputed,
+            bindingValueEl,
             statistics,
+            copyAnnualDownloads,
             window,
             document,
             name,

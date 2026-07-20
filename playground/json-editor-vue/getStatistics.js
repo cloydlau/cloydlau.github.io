@@ -64,37 +64,48 @@ async function fetchWithCache(...args) {
   }
 }
 
+function formatDownloads(count, unit) {
+  return `${count.toLocaleString()}/${unit}`
+}
+
+/** JSR API only exposes the last ~90 days; extrapolate to a year for totals. */
+function annualize(count, days = 90) {
+  return Math.round((count * 365) / days)
+}
+
 function npmDownloads() {
   // 总量，但存在跨域限制：
   // `https://npm-stat.com/api/download-counts?package=json-editor-vue&from=${initialPublishDate}&until=${currentDate}`
   // 最大支持18个月：
   return fetchWithCache(`https://api.npmjs.org/downloads/range/${lastYearToday}:${currentDate}/${name}`).then((data) => {
-    const res = data.downloads.reduce((acc, day) => acc + day.downloads, 0).toLocaleString()
-    console.info(`npm downloads: ${res}/year`)
-    return `${res}/year`
+    const count = data.downloads.reduce((acc, day) => acc + day.downloads, 0)
+    console.info(`npm downloads: ${formatDownloads(count, 'year')}`)
+    return count
   })
 }
 
 function cnpmDownloads() {
   return fetchWithCache(`https://registry.npmmirror.com/downloads/range/${lastYearToday}:${currentDate}/${name}`).then((data) => {
-    const res = data.downloads.reduce((acc, day) => acc + day.downloads, 0).toLocaleString()
-    console.info(`cnpm downloads: ${res}/year`)
-    return `${res}/year`
+    const count = data.downloads.reduce((acc, day) => acc + day.downloads, 0)
+    console.info(`cnpm downloads: ${formatDownloads(count, 'year')}`)
+    return count
   })
 }
 
 function jsrDownloads() {
+  // Official docs: download counts over the last 90 days
   return fetchWithCache('https://jsr.io/api/scopes/cloydlau/packages/json-editor-vue/downloads').then((data) => {
-    const res = data.total.reduce((acc, timeBucket) => acc + timeBucket.count, 0).toLocaleString()
-    console.info(`jsr downloads: ${res}/quarter`)
-    return `${res}/quarter`
+    const count = data.total.reduce((acc, timeBucket) => acc + timeBucket.count, 0)
+    console.info(`jsr downloads: ${formatDownloads(count, '90d')} (~${formatDownloads(annualize(count), 'year')})`)
+    return count
   })
 }
 
 function jsDelivrDownloads() {
-  return fetchWithCache(`https://data.jsdelivr.com/v1/stats/packages/npm/${name}?period=all`).then((data) => {
-    console.info(`Total jsDelivr downloads: ${data.hits.total}`)
-    return data.hits.total.toLocaleString()
+  return fetchWithCache(`https://data.jsdelivr.com/v1/stats/packages/npm/${name}?period=year`).then((data) => {
+    const count = data.hits.total
+    console.info(`jsDelivr downloads: ${formatDownloads(count, 'year')}`)
+    return count
   })
 }
 
@@ -105,11 +116,26 @@ function githubStars() {
   })
 }
 
-export default () => Promise.allSettled([npmDownloads(), cnpmDownloads(), jsrDownloads(), jsDelivrDownloads(), githubStars()]).then(([{ value: npmDownloads }, { value: cnpmDownloads }, { value: jsrDownloads }, { value: jsDelivrDownloads }, { value: githubStars }]) => ({
-  npmDownloads,
-  cnpmDownloads,
-  jsrDownloads,
-  jsDelivrDownloads,
-  unpkgDownloads: 'unknown❓',
-  githubStars,
-}))
+export default () =>
+  Promise.allSettled([npmDownloads(), cnpmDownloads(), jsrDownloads(), jsDelivrDownloads(), githubStars()]).then(
+    ([{ value: npm }, { value: cnpm }, { value: jsr }, { value: jsDelivr }, { value: githubStars }]) => {
+      const npmCount = npm ?? 0
+      const cnpmCount = cnpm ?? 0
+      const jsrCount = jsr ?? 0
+      const jsDelivrCount = jsDelivr ?? 0
+      // Unify to /year: npm, cnpm, jsDelivr are already yearly; JSR is ~90d → annualize
+      const annualDownloads = npmCount + cnpmCount + jsDelivrCount + annualize(jsrCount)
+
+      console.info(`annual downloads (all channels): ${formatDownloads(annualDownloads, 'year')}`)
+
+      return {
+        npmDownloads: typeof npm === 'number' ? formatDownloads(npm, 'year') : undefined,
+        cnpmDownloads: typeof cnpm === 'number' ? formatDownloads(cnpm, 'year') : undefined,
+        jsrDownloads: typeof jsr === 'number' ? formatDownloads(jsr, '90d') : undefined,
+        jsDelivrDownloads: typeof jsDelivr === 'number' ? formatDownloads(jsDelivr, 'year') : undefined,
+        unpkgDownloads: 'unknown❓',
+        githubStars,
+        annualDownloads: formatDownloads(annualDownloads, 'year'),
+      }
+    },
+  )
