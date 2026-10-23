@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none">
+  <title>limphase</title>
+  <g color="#18221c" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 13v17h24"/>
+    <path d="M5.08 29.08 13.7 20.46V6a1.3 1.3 0 0 1 1.3-1.3h13.3l-2.6 2.6h-9.4V21a1.3 1.3 0 0 1-.38.92l-9 9a1.3 1.3 0 0 1-1.84-1.84Z" fill="currentColor" stroke="none"/>
+    <path d="M31.3 9.7V21a1.3 1.3 0 0 1-1.3 1.3H18.7l2.6-2.6h7.4v-7.4Z" fill="currentColor" stroke="none" opacity=".58"/>
+  </g>
+</svg>
